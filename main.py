@@ -34,20 +34,20 @@ def root():
 
 
 @app.get("/posts")
-def get_posts():
+def get_all_posts():
     return {"data": my_posts}
 
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_post(post: Post):
-    post_dict = post.dict()
+    post_dict = post.model_dump()
     post_dict["id"] = randrange(0, 1000000)
     my_posts.append(post_dict)
     return {"message": post_dict}
 
 
 @app.get("/posts/{id}")
-def get_post(id: int, response: Response):
+def get_one_post(id: int, response: Response):
     post = find_post(id)
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post with id: {id} was not found")
