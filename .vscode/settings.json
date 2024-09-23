@@ -1,5 +1,7 @@
 {
   "cSpell.words": [
     "pydantic"
-  ]
+  ],
+  "editor.wordWrap": "on",
+  "diffEditor.wordWrap": "on"
 }
