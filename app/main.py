@@ -34,30 +34,33 @@ while True:
         time.sleep(2)
 
 
-@app.get("/sqlalchemy")
-def test_posts(db: Session = Depends(get_db)):
-    return {"status": "Success"}
-
-
 @app.get("/")
 def root():
     return {"message": "Welcome to my FastAPI server!!!"}
 
 
 @app.get("/posts")
-def get_all_posts():
-    cursor.execute(""" SELECT * FROM posts """)
-    posts = cursor.fetchall()
+def get_all_posts(db: Session = Depends(get_db)):
+    # cursor.execute(""" SELECT * FROM posts """)
+    # posts = cursor.fetchall()
+
+    posts = db.query(models.Post).all()
     return {"data": posts}
 
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_post(post: Post):
-    cursor.execute(""" INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) RETURNING * """, (post.title, post.content, post.published))
-    new_post = cursor.fetchone()
+def create_post(post: Post, db: Session = Depends(get_db)):
+    # cursor.execute(""" INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) RETURNING * """, (post.title, post.content, post.published))
+    # new_post = cursor.fetchone()
 
-    conn.commit() # This saves the new post in the database
-    return {"message": new_post}
+    # conn.commit() # This saves the new post in the database
+
+    new_post = models.Post(title=post.title, content=post.content, published=post.published)
+    db.add(new_post)
+    db.commit()
+    db.refresh(new_post)
+
+    return {"message": "Successful", "data": new_post}
 
 
 @app.get("/posts/{id}")
