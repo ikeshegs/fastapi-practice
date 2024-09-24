@@ -103,7 +103,7 @@ def update_post(id: int, updated_post: schemas.CreatePost, db: Session = Depends
     return post_query.first()
 
 
-@app.post("/users", status_code=status.HTTP_201_CREATED, response_model=schemas.CreateUserResponse)
+@app.post("/users", status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
 def create_user(user: schemas.CreateUser, db: Session = Depends(get_db)):
 
     user.password = utils.hash_password(user.password)
@@ -116,7 +116,7 @@ def create_user(user: schemas.CreateUser, db: Session = Depends(get_db)):
     return new_user
 
 
-@app.get("/users/{id}")
+@app.get("/users/{id}", response_model=schemas.UserResponse)
 def get_user(id: int, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == id).first()
 

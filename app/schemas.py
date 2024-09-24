@@ -26,7 +26,7 @@ class CreateUser(BaseModel):
     password: str
 
 
-class CreateUserResponse(BaseModel):
+class UserResponse(BaseModel):
     id: int
     email: EmailStr
     created_at: datetime
