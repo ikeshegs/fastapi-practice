@@ -9,3 +9,9 @@ class PostBase(BaseModel):
 
 class CreatePost(PostBase):
     pass
+
+
+class PostResponse(BaseModel):
+    title: str
+    content: str
+    published: bool
