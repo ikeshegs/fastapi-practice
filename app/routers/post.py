@@ -2,8 +2,8 @@ from typing import List
 from fastapi import Response, status, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session
 
-from .. import models, schemas
-from ..database import engine, get_db
+from .. import models, schemas, oauth2
+from ..database import get_db
 
 router = APIRouter(
     prefix="/posts",
@@ -20,12 +20,12 @@ def get_all_posts(db: Session = Depends(get_db)):
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.PostResponse)
-def create_post(post: schemas.CreatePost, db: Session = Depends(get_db)):
+def create_post(post: schemas.CreatePost, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
     # cursor.execute(""" INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) RETURNING * """, (post.title, post.content, post.published))
     # new_post = cursor.fetchone()
 
     # conn.commit() # This saves the new post in the database
-
+    print(user_id)
     new_post = models.Post(**post.model_dump()) # **post.model_dump() is like spread in javascript 
     db.add(new_post)
     db.commit()
