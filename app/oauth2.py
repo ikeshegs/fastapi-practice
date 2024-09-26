@@ -10,7 +10,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 # openssl rand -hex 32
 SECRET_KEY = "7b82bfb07005ff9e636353a2835bcc19c87398c5cc0fff5a4fb0372c99ba1e60"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 def create_access_token(data: dict):
     print(data)
