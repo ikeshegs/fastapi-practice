@@ -26,7 +26,7 @@ def create_post(post: schemas.CreatePost, db: Session = Depends(get_db), current
 
     # conn.commit() # This saves the new post in the database
     
-    new_post = models.Post(**post.model_dump()) # **post.model_dump() is like spread in javascript 
+    new_post = models.Post(user_id=current_user.id, **post.model_dump()) # **post.model_dump() is like spread in javascript 
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
