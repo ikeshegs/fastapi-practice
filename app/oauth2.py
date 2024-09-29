@@ -16,7 +16,6 @@ ALGORITHM = settings.algorithm
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expires_minutes
 
 def create_access_token(data: dict):
-    print(data)
     to_encode = data.copy()
 
     # expire = datetime.timezone.utc() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
