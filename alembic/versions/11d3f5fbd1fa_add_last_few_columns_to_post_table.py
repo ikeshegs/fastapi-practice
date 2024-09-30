@@ -20,7 +20,7 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     op.add_column('posts', sa.Column('published', sa.String(), nullable=False, server_default='True'))
-    op.add_column('posts', sa.Column('created', sa.TIMESTAMP(timezone=True), nullable=False, server_default=sa.text('now()')))
+    op.add_column('posts', sa.Column('created_at', sa.TIMESTAMP(timezone=True), nullable=False, server_default=sa.text('now()')))
     pass
 
 
